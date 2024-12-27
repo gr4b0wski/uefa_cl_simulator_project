@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Lista Drużyn</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css"
+    />
+<style>
+    body {
+        color: white;
+    }
+    .background {
+            background-image: url("/images/stadium.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            filter: blur(8px); /* Rozmycie tła */
+            z-index: 0;
+            background-attachment: fixed;
+        }
+    .fi {
+        width: 36px;
+        line-height: 27px;
+        border-radius: 3px;
+    }
+    .table td, .table th {
+        padding: 0.2rem;
+        background: rgba(0, 0, 0, 0.5);
+    }
+    .container {
+        padding: 40px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    #counter {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+        background: rgba(0, 0, 0, 0.5);
+    }
+    .wybierz {
+        position: absolute;
+        top: 15px;
+        text-align: center;
+        width: 100%;
+    }
+    .btn-custom {
+            position: fixed;
+            font-size: 44px;
+            right: 120px;
+            top: 100px;
+            width: 300px;
+            height: 100px;
+            margin: 0 auto;
+            vertical-align: middle;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #0329fe, #cd3dff); /* Gradient granatowo-niebieski */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            transition: background 0.6s ease, transform 0.3s ease; /* Płynne przejście tła i transformacji */
+        }
+
+        /* Efekt hover dla przycisku */
+        .btn-custom:hover {
+            color: white;
+            text-decoration: none;
+            background: linear-gradient(45deg, #cd3dff, #0329fe); /* Zmiana kierunku gradientu na hover */
+            transform: scale(1.05); /* Lekka animacja powiększenia przycisku */
+        }
+</style>
+</head>
+<body>
+<div class="background"></div>
+<div class="wybierz">
+    <span style="font-weight: bold; text-shadow: 2px 2px 5px black;">Pick 36 teams to play in the league phase!</span>
+</div>
+<div class="container my-2">
+<div class="col-md-7">
+    <div id="counter" class="text-center">Picked teams: 0 / 36</div>
+    <form action="/draw" method="post">
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th class="col-md-1">Country</th>
+        <th class="col-md-4">Team Name</th>
+        <th class="col-md-1">ELO Points</th>
+        <th class="col-md-1">Pick</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="team, iter : ${teams}">
+        <td><span th:class="'fi fi-' + ${team.countryCode}"></span></td>
+        <td th:text="${team.teamName}"></td>
+        <td th:text="${team.eloPoints}"></td>
+        <td>
+            <input type="checkbox" name="selectedTeams"
+                   class="team-checkbox" th:value="${team.teamName}"
+                   th:checked="${iter.index < 36}">
+        </td>
+    </tr>
+    </tbody>
+</table>
+        <button type="submit" class="btn-custom" id="next-button" style="text-shadow: 2px 2px 5px black;">Next</button>
+    </form>
+</div>
+</div>
+<div th:insert="comman/footer :: footer"></div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const checkboxes = document.querySelectorAll('.team-checkbox');
+    const counter = document.getElementById('counter');
+    const nextButton = document.getElementById('next-button');
+    const maxSelections = 36;
+
+    // Aktualizacja licznika zaznaczeń
+    const updateCounter = () => {
+        const selectedCount = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
+        counter.textContent = `Picked teams: ${selectedCount} / ${maxSelections}`;
+
+        // Włącz lub wyłącz przycisk "Next"
+        if (selectedCount === maxSelections) {
+            nextButton.style.pointerEvents = 'auto'; // Aktywuj kliknięcia
+            nextButton.style.opacity = '1'; // Przywróć pełną widoczność
+        } else {
+            nextButton.style.pointerEvents = 'none'; // Wyłącz kliknięcia
+            nextButton.style.opacity = '0.5'; // Przyciemnij przycisk
+        }
+    };
+
+    // Obsługa ograniczenia zaznaczeń
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            const selectedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+
+            if (selectedCount > maxSelections) {
+                checkbox.checked = false; // Cofnięcie zmiany, jeśli limit przekroczony
+            }
+
+            updateCounter();
+        });
+    });
+
+    // Inicjalizacja licznika i stanu przycisku przy załadowaniu strony
+    updateCounter();
+    });
+
+
+</script>
+</body>
+</html>
+
+
+
