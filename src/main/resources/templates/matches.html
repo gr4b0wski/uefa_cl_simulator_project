@@ -45,7 +45,7 @@
             margin: 0 auto;
             text-align: center;
         }
-        #counter {
+        #counter, .selected {
             font-size: 1.2rem;
             font-weight: bold;
             margin-bottom: 10px;
@@ -93,6 +93,7 @@
 </div>
 <div class="container my-2">
     <div class="col-md-7">
+        <div class="selected text-center">Fixture 1</div>
             <table class="table table-bordered">
                 <thead>
                 <tr>
@@ -105,7 +106,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="match, iter : ${matches}">
+                <tr th:each="match, iter : ${fixture1}">
                     <td><span th:class="'fi fi-' + ${match.team1.countryCode}"></span></td>
                     <td th:text="${match.team1.teamName}"></td>
                     <td th:text="${match.goals1}"></td>
@@ -115,6 +116,167 @@
                 </tr>
                 </tbody>
             </table>
+        <div class="selected text-center">Fixture 2</div>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th class="col-md-1"></th>
+                <th class="col-md-2">Home</th>
+                <th class="col-md-1" style="width: 4%"></th>
+                <th class="col-md-1" style="width: 4%"></th>
+                <th class="col-md-2">Away</th>
+                <th class="col-md-1"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="match, iter : ${fixture2}">
+                <td><span th:class="'fi fi-' + ${match.team1.countryCode}"></span></td>
+                <td th:text="${match.team1.teamName}"></td>
+                <td th:text="${match.goals1}"></td>
+                <td th:text="${match.goals2}"></td>
+                <td th:text="${match.team2.teamName}"></td>
+                <td><span th:class="'fi fi-' + ${match.team2.countryCode}"></span></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="selected text-center">Fixture 3</div>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th class="col-md-1"></th>
+                <th class="col-md-2">Home</th>
+                <th class="col-md-1" style="width: 4%"></th>
+                <th class="col-md-1" style="width: 4%"></th>
+                <th class="col-md-2">Away</th>
+                <th class="col-md-1"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="match, iter : ${fixture3}">
+                <td><span th:class="'fi fi-' + ${match.team1.countryCode}"></span></td>
+                <td th:text="${match.team1.teamName}"></td>
+                <td th:text="${match.goals1}"></td>
+                <td th:text="${match.goals2}"></td>
+                <td th:text="${match.team2.teamName}"></td>
+                <td><span th:class="'fi fi-' + ${match.team2.countryCode}"></span></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="selected text-center">Fixture 4</div>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th class="col-md-1"></th>
+                <th class="col-md-2">Home</th>
+                <th class="col-md-1" style="width: 4%"></th>
+                <th class="col-md-1" style="width: 4%"></th>
+                <th class="col-md-2">Away</th>
+                <th class="col-md-1"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="match, iter : ${fixture4}">
+                <td><span th:class="'fi fi-' + ${match.team1.countryCode}"></span></td>
+                <td th:text="${match.team1.teamName}"></td>
+                <td th:text="${match.goals1}"></td>
+                <td th:text="${match.goals2}"></td>
+                <td th:text="${match.team2.teamName}"></td>
+                <td><span th:class="'fi fi-' + ${match.team2.countryCode}"></span></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="selected text-center">Fixture 5</div>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th class="col-md-1"></th>
+                <th class="col-md-2">Home</th>
+                <th class="col-md-1" style="width: 4%"></th>
+                <th class="col-md-1" style="width: 4%"></th>
+                <th class="col-md-2">Away</th>
+                <th class="col-md-1"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="match, iter : ${fixture5}">
+                <td><span th:class="'fi fi-' + ${match.team1.countryCode}"></span></td>
+                <td th:text="${match.team1.teamName}"></td>
+                <td th:text="${match.goals1}"></td>
+                <td th:text="${match.goals2}"></td>
+                <td th:text="${match.team2.teamName}"></td>
+                <td><span th:class="'fi fi-' + ${match.team2.countryCode}"></span></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="selected text-center">Fixture 6</div>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th class="col-md-1"></th>
+                <th class="col-md-2">Home</th>
+                <th class="col-md-1" style="width: 4%"></th>
+                <th class="col-md-1" style="width: 4%"></th>
+                <th class="col-md-2">Away</th>
+                <th class="col-md-1"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="match, iter : ${fixture6}">
+                <td><span th:class="'fi fi-' + ${match.team1.countryCode}"></span></td>
+                <td th:text="${match.team1.teamName}"></td>
+                <td th:text="${match.goals1}"></td>
+                <td th:text="${match.goals2}"></td>
+                <td th:text="${match.team2.teamName}"></td>
+                <td><span th:class="'fi fi-' + ${match.team2.countryCode}"></span></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="selected text-center">Fixture 7</div>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th class="col-md-1"></th>
+                <th class="col-md-2">Home</th>
+                <th class="col-md-1" style="width: 4%"></th>
+                <th class="col-md-1" style="width: 4%"></th>
+                <th class="col-md-2">Away</th>
+                <th class="col-md-1"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="match, iter : ${fixture7}">
+                <td><span th:class="'fi fi-' + ${match.team1.countryCode}"></span></td>
+                <td th:text="${match.team1.teamName}"></td>
+                <td th:text="${match.goals1}"></td>
+                <td th:text="${match.goals2}"></td>
+                <td th:text="${match.team2.teamName}"></td>
+                <td><span th:class="'fi fi-' + ${match.team2.countryCode}"></span></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="selected text-center">Fixture 8</div>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th class="col-md-1"></th>
+                <th class="col-md-2">Home</th>
+                <th class="col-md-1" style="width: 4%"></th>
+                <th class="col-md-1" style="width: 4%"></th>
+                <th class="col-md-2">Away</th>
+                <th class="col-md-1"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="match, iter : ${fixture8}">
+                <td><span th:class="'fi fi-' + ${match.team1.countryCode}"></span></td>
+                <td th:text="${match.team1.teamName}"></td>
+                <td th:text="${match.goals1}"></td>
+                <td th:text="${match.goals2}"></td>
+                <td th:text="${match.team2.teamName}"></td>
+                <td><span th:class="'fi fi-' + ${match.team2.countryCode}"></span></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 <div th:insert="comman/footer :: footer"></div>

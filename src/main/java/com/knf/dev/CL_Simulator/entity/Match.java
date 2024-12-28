@@ -5,6 +5,7 @@ public class Match {
     private Team team2;
     private int goals1;
     private int goals2;
+    private int round;
 
     public Team getTeam1() {
         return team1;
