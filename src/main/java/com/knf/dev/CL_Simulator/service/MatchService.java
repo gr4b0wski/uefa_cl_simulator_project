@@ -13,7 +13,12 @@ public class MatchService {
 
     public ArrayList<Match> setLeaguePhase(List<Team> pot1, List<Team> pot2, List<Team> pot3, List<Team> pot4) {
         ArrayList<Match> matches = new ArrayList<>();
-        Random random = new Random();
+        Collections.shuffle(pot1); // mieszanie koszyków
+        Collections.shuffle(pot2);
+        Collections.shuffle(pot3);
+        Collections.shuffle(pot4);
+
+
         // 1 kolejka
         matches.add(new Match(pot3.get(7), pot4.get(3)));
         matches.add(new Match(pot2.get(3), pot3.get(1)));
