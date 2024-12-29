@@ -6,6 +6,7 @@ public class Match {
     private int goals1;
     private int goals2;
     private int round;
+    private boolean played = false;
 
     public Team getTeam1() {
         return team1;
@@ -42,5 +43,13 @@ public class Match {
     public Match(Team team1, Team team2) {
         this.team1 = team1;
         this.team2 = team2;
+    }
+
+    public boolean isPlayed() {
+        return played;
+    }
+
+    public void setPlayed(boolean played) {
+        this.played = played;
     }
 }
