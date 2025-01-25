@@ -12,6 +12,7 @@ import java.util.List;
 
 @Service
 public class TeamService {
+	private List<Team> teams = new ArrayList<>();
 	public List<Team> loadTeamsFromCsv() {
 		List<Team> teams = new ArrayList<>();
 		try {
@@ -54,4 +55,16 @@ public class TeamService {
 
 		return selectedTeams;
 	}
+
+	public void updateEloForTeam(String teamName, int newElo) {
+		// Znajdź drużynę w liście na podstawie nazwy
+		for (Team team : teams) {
+			if (team.getTeamName().equalsIgnoreCase(teamName)) {
+				// Zaktualizuj ELO
+				team.setEloPoints(newElo);
+				break; // Zatrzymaj pętlę po znalezieniu drużyny
+			}
+		}
+	}
+
 }

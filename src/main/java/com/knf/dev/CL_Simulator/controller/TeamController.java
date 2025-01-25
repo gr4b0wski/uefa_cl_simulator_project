@@ -33,15 +33,27 @@ public class TeamController {
 		return "team-list";
 	}
 
+	@PostMapping("/update-elo")
+	public String updateElo(@RequestParam String teamName, @RequestParam int eloPoints) {
+		teamService.updateEloForTeam(teamName, eloPoints); // Aktualizacja w serwisie
+		return "redirect:/teams"; // Powrót na stronę z listą drużyn
+	}
+
 	@PostMapping("/draw")
 	public String drawTeams(@RequestParam List<String> selectedTeams, HttpSession session, Model model) {
+		// Pobierz drużyny z listy teams na podstawie ich nazw
 		List<Team> pickedTeams = teamService.getTeamsByName(selectedTeams);
+
+		// Sortuj drużyny według aktualnego ELO malejąco
 		pickedTeams.sort(Comparator.comparingInt(Team::getEloPoints).reversed());
+
+		// Podziel na koszyki
 		List<Team> pot1 = pickedTeams.subList(0, 9);  // Koszyk 1: 1-9
 		List<Team> pot2 = pickedTeams.subList(9, 18); // Koszyk 2: 10-18
 		List<Team> pot3 = pickedTeams.subList(18, 27); // Koszyk 3: 19-27
 		List<Team> pot4 = pickedTeams.subList(27, 36); // Koszyk 4: 28-36
 
+		// Zapisz koszyki w sesji i modelu
 		session.setAttribute("pot1", pot1);
 		session.setAttribute("pot2", pot2);
 		session.setAttribute("pot3", pot3);
@@ -51,8 +63,10 @@ public class TeamController {
 		model.addAttribute("pot2", pot2);
 		model.addAttribute("pot3", pot3);
 		model.addAttribute("pot4", pot4);
+
 		return "draw";
 	}
+
 
 
 }
