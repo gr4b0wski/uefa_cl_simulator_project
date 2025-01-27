@@ -136,7 +136,6 @@ public class MatchController {
             knockoutMatches.add(new Match(team1.get(0), team2.get(0)));
         }
 
-        // Dodaj dane do modelu
         model.addAttribute("knockoutMatches", knockoutMatches);
         session.setAttribute("knockoutMatches", knockoutMatches);
         return "knockouts"; // Widok knockouts.html

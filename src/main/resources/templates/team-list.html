@@ -108,7 +108,19 @@
     <tr th:each="team, iter : ${teams}">
         <td><span th:class="'fi fi-' + ${team.countryCode}"></span></td>
         <td th:text="${team.teamName}"></td>
-        <td th:text="${team.eloPoints}"></td>
+        <td>
+            <span class="elo-value" th:text="${team.eloPoints}"></span>
+            <a href="#" class="text-primary edit-icon" onclick="enableEdit(this, event)">
+                <i class="fas fa-edit"></i>
+            </a>
+
+            <div class="edit-container" style="display: none;">
+                <input type="hidden" class="team-name" th:value="${team.teamName}" />
+                <input type="number" class="elo-input" th:value="${team.eloPoints}" style="width: 80px;" required />
+                <button class="btn btn-sm btn-success" type="button" onclick="saveElo(this, event)">Save</button>
+                <button class="btn btn-sm btn-secondary" onclick="cancelEdit(this)">Cancel</button>
+            </div>
+        </td>
         <td>
             <input type="checkbox" name="selectedTeams"
                    class="team-checkbox" th:value="${team.teamName}"
@@ -123,6 +135,58 @@
 </div>
 <div th:insert="comman/footer :: footer"></div>
 <script>
+
+    function cancelEdit(cancelButton) {
+        const td = cancelButton.closest('td');
+        td.querySelector('.elo-value').style.display = 'inline'; // Pokaż tekst ELO
+        td.querySelector('.edit-icon').style.display = 'inline'; // Pokaż ikonę edycji
+        td.querySelector('.edit-container').style.display = 'none'; // Ukryj kontener edycji
+    }
+
+  async function saveElo(saveButton, event) {
+    event.preventDefault(); // Zatrzymanie domyślnego działania (np. przewijania)
+
+    const td = saveButton.closest('td');
+    const teamName = td.querySelector('.team-name').value;
+    const eloPoints = td.querySelector('.elo-input').value;
+
+    try {
+        const response = await fetch('/update-elo', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `teamName=${encodeURIComponent(teamName)}&eloPoints=${encodeURIComponent(eloPoints)}`
+        });
+
+        if (response.ok) {
+            // Jeśli odpowiedź jest ok, zaktualizuj wartość ELO na stronie
+            td.querySelector('.elo-value').textContent = eloPoints;
+
+            // Zakończ edycję
+            cancelEdit(saveButton);
+        } else {
+            alert('Failed to update ELO. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error during the request:', error);
+        alert('Error during the request. Please try again.');
+    }
+}
+
+// Funkcja do włączania edycji
+function enableEdit(editIcon, event) {
+    event.preventDefault();  // Zatrzymuje domyślną akcję linku (skakanie na górę strony)
+
+    const td = editIcon.closest('td');
+    td.querySelector('.elo-value').style.display = 'none'; // Ukryj tekst ELO
+    td.querySelector('.edit-icon').style.display = 'none'; // Ukryj ikonę edycji
+    td.querySelector('.edit-container').style.display = 'inline'; // Pokaż kontener edycji
+}
+
+
+
+
     document.addEventListener('DOMContentLoaded', function () {
     const checkboxes = document.querySelectorAll('.team-checkbox');
     const counter = document.getElementById('counter');
