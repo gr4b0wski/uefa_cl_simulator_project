@@ -3,6 +3,7 @@ import com.knf.dev.CL_Simulator.entity.Team;
 import org.springframework.stereotype.Service;
 import org.springframework.core.io.ClassPathResource;
 
+import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -56,15 +57,27 @@ public class TeamService {
 		return selectedTeams;
 	}
 
-	public void updateEloForTeam(String teamName, int newElo) {
-		// Znajdź drużynę w liście na podstawie nazwy
-		for (Team team : teams) {
+	public void updateEloForTeam(String teamName, int newElo, HttpSession session) {
+		// Jeśli lista drużyn jest już przechowywana w sesji
+		List<Team> teamsInSession = (List<Team>) session.getAttribute("teams");
+		if (teamsInSession == null) {
+			teamsInSession = loadTeamsFromCsv(); // Jeśli nie ma, załaduj z pliku
+			session.setAttribute("teams", teamsInSession); // Zapisz do sesji
+		}
+
+		// Aktualizacja ELO drużyny w liście w sesji
+		for (Team team : teamsInSession) {
 			if (team.getTeamName().equalsIgnoreCase(teamName)) {
-				// Zaktualizuj ELO
 				team.setEloPoints(newElo);
-				break; // Zatrzymaj pętlę po znalezieniu drużyny
+				break;
 			}
 		}
+
+		// Przechowuj zaktualizowaną listę w sesji
+		session.setAttribute("teams", teamsInSession);
 	}
+
+
+
 
 }
