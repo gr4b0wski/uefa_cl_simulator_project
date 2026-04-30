@@ -1,8 +1,10 @@
-# UEFA Champions League Simulator 
+<img width="947" height="473" alt="image" src="https://github.com/user-attachments/assets/7ac138ff-17e0-4083-a545-0662bcc2d9d5" /># UEFA Champions League Simulator 
 
 An advanced, probability-driven simulator for the new UEFA Champions League format (2024/2025 Swiss-system tournament). 
 
 Unlike basic simulators that rely on simple random number generation, this project utilizes real-world mathematical models, including the **Elo Rating System** and **Poisson Distribution**, to accurately simulate match outcomes and generate realistic league tables.
+<img src="screen.png"/>
+
 
 ## The Simulation Engine (Mathematics & Logic)
 
