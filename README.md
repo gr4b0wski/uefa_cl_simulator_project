@@ -37,4 +37,4 @@ $$P(k \text{ goals}) = \frac{\lambda^k e^{-\lambda}}{k!}$$
 ## How to Run
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/gr4b0wski/uefa_cl_simulator_project.git](https://github.com/gr4b0wski/uefa_cl_simulator_project.git)
+   git clone https://github.com/gr4b0wski/uefa_cl_simulator_project.git
