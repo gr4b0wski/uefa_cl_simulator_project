@@ -37,20 +37,34 @@ public class TeamController {
 
 	@PostMapping("/draw")
 	public String drawTeams(@RequestParam List<String> selectedTeams, HttpSession session, Model model) {
-		List<Team> pickedTeams = (List<Team>) session.getAttribute("teams"); // Pobierz drużyny z sesji
-		if (pickedTeams == null) {
-			pickedTeams = teamService.loadTeamsFromCsv(); // Jeśli brak danych w sesji, załaduj ponownie
+		// 1. Pobierz wszystkie drużyny z sesji (lub pliku)
+		List<Team> allTeams = (List<Team>) session.getAttribute("teams");
+		if (allTeams == null) {
+			allTeams = teamService.loadTeamsFromCsv();
 		}
 
-		// Sortowanie drużyn po ELO
-		pickedTeams.sort(Comparator.comparingInt(Team::getEloPoints).reversed());
+		// 2. PRZEFILTRUJ drużyny - zostaw tylko te, które użytkownik zaznaczył w HTML
+		List<Team> pickedTeams = allTeams.stream()
+				.filter(team -> selectedTeams.contains(team.getTeamName()))
+				.toList(); // W starszej Javie: .collect(Collectors.toList());
 
-		// Podziel drużyny na koszyki
-		List<Team> pot1 = pickedTeams.subList(0, 9);
-		List<Team> pot2 = pickedTeams.subList(9, 18);
-		List<Team> pot3 = pickedTeams.subList(18, 27);
-		List<Team> pot4 = pickedTeams.subList(27, 36);
+		// Opcjonalnie: zabezpieczenie, gdyby przyszło mniej lub więcej niż 36 drużyn
+		if (pickedTeams.size() != 36) {
+			return "redirect:/teams"; // Zwróć użytkownika na stronę wyboru, jeśli coś zepsuł w HTML
+		}
 
+		// 3. Posortuj TYLKO wybrane drużyny po ELO
+		// Używamy kopii listy (ArrayList), bo wynik toList() ze streama może być niemodyfikowalny
+		List<Team> sortedTeams = new ArrayList<>(pickedTeams);
+		sortedTeams.sort(Comparator.comparingInt(Team::getEloPoints).reversed());
+
+		// 4. Podziel przefiltrowane i posortowane drużyny na koszyki
+		List<Team> pot1 = sortedTeams.subList(0, 9);
+		List<Team> pot2 = sortedTeams.subList(9, 18);
+		List<Team> pot3 = sortedTeams.subList(18, 27);
+		List<Team> pot4 = sortedTeams.subList(27, 36);
+
+		// Zapisz do sesji i modelu
 		session.setAttribute("pot1", pot1);
 		session.setAttribute("pot2", pot2);
 		session.setAttribute("pot3", pot3);
